@@ -1,9 +1,14 @@
-// Global app controller
+
+import axios from 'axios';
 
 
-import {num, func} from './test';
-function multiply(a,b){
-    return a * b;
+async function  getResults(params) {
+    const res = await axios(`https://forkify-api.herokuapp.com/api/search?q=${params}`);
+
+    console.log(res);
 }
-console.log(`Imported number is ${num} and its multilied by 2 is ${multiply(num, 2)}`)
+
+getResults();
+// Global app controller
+//https://forkify-api.herokuapp.com/api/search
 
