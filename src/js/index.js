@@ -39,7 +39,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
         clearLoader();
 
         searchView.renderResult(state.search.results);
-        //console.log(state.search.results)
+        console.log(state.search.results)
     }
  }
 
@@ -47,6 +47,22 @@ import { elements, renderLoader, clearLoader } from './views/base';
      //prevent form from submitting on button click.
      e.preventDefault();
      controlSearch();
+ });
+
+ //let delegate event to the button container since the pagination buttons are not rendered in the dom when the page is loaded.
+
+ elements.searchResPages.addEventListener('click', e =>{
+
+    //we only want to delegate the event to button not on svg or text.
+    const btn = e.target.closest('.btn-inline');
+
+    if(btn){
+        //since pagination button are dynamic, we have attahced the data-goto attr to it so that we can track the dynamic value.
+        const gotoPage = parseInt(btn.dataset.goto, 10);
+        //console.log(gotoPage)
+        searchView.clearRecipeList();
+        searchView.renderResult(state.search.results, gotoPage);
+    }
  })
 
 

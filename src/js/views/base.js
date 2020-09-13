@@ -5,16 +5,20 @@ export const elementClasses = {
   loader: "loader",
   search: "search",
   searchField: "search__field",
-  searchResult : 'results',
-  searchResultList : 'results__list'
+  searchResult: "results",
+  searchResultList: "results__list",
+  searchResPages: "results__pages",
 };
 
 
 export const elements = {
   searchForm: document.querySelector(`.${elementClasses.search}`),
   searchInput: document.querySelector(`.${elementClasses.searchField}`),
-  searchResultList: document.querySelector(`.${elementClasses.searchResultList}`),
+  searchResultList: document.querySelector(
+    `.${elementClasses.searchResultList}`
+  ),
   searchResult: document.querySelector(`.${elementClasses.searchResult}`),
+  searchResPages: document.querySelector(`.${elementClasses.searchResPages}`),
 };
 
 
