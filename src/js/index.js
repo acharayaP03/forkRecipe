@@ -4,7 +4,7 @@
 
 import Search from './model/Search';
 import * as searchView from './views/searchView';
-import { elements } from './views/base';
+import { elements, renderLoader, clearLoader } from './views/base';
 
 //first lets save the state of the app,
 /**
@@ -30,11 +30,14 @@ import { elements } from './views/base';
         //Prepare for UI results.
         searchView.clearInput();
         searchView.clearRecipeList();
-
+        renderLoader(elements.searchResult);
+       
         // Search for recipes
         await state.search.getResults();
 
         // render results on UI
+        clearLoader();
+
         searchView.renderResult(state.search.results);
         //console.log(state.search.results)
     }
