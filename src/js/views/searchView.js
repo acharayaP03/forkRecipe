@@ -47,6 +47,7 @@ const shotenRecipeTitle = (title, limit=17) => {
 
 export const clearRecipeList = () =>{
     elements.searchResultList.innerHTML = "";
+    elements.searchResPages.innerHTML = "";
 }
 
 //render ui component 
@@ -70,8 +71,46 @@ const renderRecipe = recipe => {
     elements.searchResultList.insertAdjacentHTML('beforeend', markUp);
 }
 
+const createButton = (page, type) => `
+    <button class="btn-inline results__btn--${type}" data-goto=${ type === "prev" ? page - 1 : page + 1}">
+        <span>Page ${type === "prev" ? page - 1 : page + 1}</span>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${type === "prev" ? "left" : "right"}"></use>
+        </svg>
+    </button>
+`;
+
+const renderButtons = (page, numResults, resPerPage) =>{
+    const pages = Math.ceil(numResults / resPerPage);
+    
+    let button;
+    if(page === 1 && pages > 1){
+        //show button to go next
+        button = createButton(page, "next");
+    }else if (page < pages){
+        //show both buttons
+        button = `
+            ${createButton(page, "prev")}
+            ${createButton(page, "next")}
+        `;
+    }else if(page === pages && pages > 1){
+        //show button to go prev pge
+        button = createButton(page, "prev");
+    }
+    elements.searchResPages.insertAdjacentHTML('afterbegin', button);
+}
+
 //loopover renderRecipe and show all the result with given markUp
-export const renderResult = recipies =>{
-    recipies.forEach(renderRecipe)
+export const renderResult = (recipies, page=1, resPerPage=10) =>{
+    
+    //render result of current pages
+    const start = (page -1 ) * resPerPage;
+    const end = page * resPerPage;
+
+    recipies.slice(start, end).forEach(renderRecipe)
+
+    //render pagination button
+    renderButtons(page, recipies.length, resPerPage);
+    
 } 
     
