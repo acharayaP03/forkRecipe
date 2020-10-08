@@ -52,7 +52,7 @@ export default class Recipe{
             //if there any parenthesis then remove import PropTypes from 'prop-types'
             ingredients = ingredients.replace(/ *\([^)]*\) */g, " ");
 
-            //parse ingredients into cont, unit and ingredients
+            //parse ingredients into count, unit and ingredients
             const arrIng = ingredients.split(' ');
             //since we do not know the index, indexOf() will not work, instead we use findIndex method.
             const unitIndex = arrIng.findIndex( currElement => units.includes(currElement));

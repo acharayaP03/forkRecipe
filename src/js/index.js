@@ -4,6 +4,7 @@
 
 import Search from './model/Search';
 import Recipe from "./model/Recipe";
+import List from "./model/List";
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import { elements, renderLoader, clearLoader, elementClasses } from './views/base';
@@ -42,7 +43,7 @@ import { elements, renderLoader, clearLoader, elementClasses } from './views/bas
             clearLoader();
     
             searchView.renderResult(state.search.results);
-            console.log(state.search.results)
+            //console.log(state.search.results)
         } catch (error) {
             console.log(error)
         }
@@ -131,3 +132,6 @@ elements.recipe.addEventListener('click',e =>{
     //check if state.recipe is decreasing. 
     //console.log(state.recipe)
 })
+
+window.l = new List()
+ 
