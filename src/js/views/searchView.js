@@ -57,7 +57,7 @@ const renderRecipe = recipe => {
     const { recipe_id ,image_url ,title ,publisher } = recipe;
     const markUp = `
         <li>
-            <a class="results__link" href="${recipe_id}">
+            <a class="results__link" href="#${recipe_id}">
                 <figure class="results__fig">
                     <img src="${image_url}" alt="${title}">
                 </figure>
