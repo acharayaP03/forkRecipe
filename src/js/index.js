@@ -5,7 +5,8 @@
 import Search from './model/Search';
 import Recipe from "./model/Recipe";
 import * as searchView from './views/searchView';
-import { elements, renderLoader, clearLoader } from './views/base';
+import * as recipeView from './views/recipeView';
+import { elements, renderLoader, clearLoader, elementClasses } from './views/base';
 
 //first lets save the state of the app,
 /**
@@ -83,7 +84,12 @@ const controlRecipe = async () =>{
     //if id exist 
     if(id){
         //Prepare UI for changes
+        //clear recipe if exist 
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
 
+        //highlight selected 
+         if(state.search) searchView.highlightSelected(id);
         //create new recipe object
         state.recipe = new Recipe(id);
         try{
@@ -93,8 +99,10 @@ const controlRecipe = async () =>{
             //Calculate serving time
             state.recipe.calcTime()
             state.recipe.calcServings();
-    
-            console.log(state.recipe)
+            //Render single recipe
+            //console.log(state.recipe)
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         }catch(err){
             console.log(err)
         }
@@ -103,4 +111,23 @@ const controlRecipe = async () =>{
 
 // window.addEventListener('hashchange', controlRecipe);
 // window.addEventListener('load', controlRecipe);
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe))
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+//Handling recipe button clicks 
+elements.recipe.addEventListener('click',e =>{
+    //.matches() accepts multiple css selector, so here we are selecting all the element within .btn-decrease selector with *.
+    if(e.target.matches('.btn-decrease, .btn-decrease *')){
+        // Decrease button is clicked 
+        if(state.recipe.servings > 1){
+            state.recipe.updateServings('dec')
+            recipeView.updateServingsIngredients(state.recipe);
+        }
+    }
+    else if(e.target.matches('.btn-increase, .btn-increase *')){
+        // increase button is clicked 
+        state.recipe.updateServings("inc");
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+    //check if state.recipe is decreasing. 
+    //console.log(state.recipe)
+})

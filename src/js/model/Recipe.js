@@ -27,7 +27,7 @@ export default class Recipe{
     }
 
     calcTime(){
-        const numIng = this.ingredients.lenght;
+        const numIng = this.ingredients.length;
         const periods = Math.ceil(numIng / 3);
         this.time = periods * 15;
     }
@@ -39,6 +39,7 @@ export default class Recipe{
     parseIngredients(){
         const unitsLong = [ 'tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+        const units = [ ...unitsShort, 'kg', 'g']
 
         //now we assing a new array maping on this.ingredients
         const newIngedients = this.ingredients.map( el =>{
@@ -54,7 +55,7 @@ export default class Recipe{
             //parse ingredients into cont, unit and ingredients
             const arrIng = ingredients.split(' ');
             //since we do not know the index, indexOf() will not work, instead we use findIndex method.
-            const unitIndex = arrIng.findIndex( currElement => unitsShort.includes(currElement));
+            const unitIndex = arrIng.findIndex( currElement => units.includes(currElement));
 
             //now we will retun as an object 
             let objIng;
@@ -88,5 +89,17 @@ export default class Recipe{
             }
             return objIng;
         })
-        this.ingredients = newIngedients;    }
+        this.ingredients = newIngedients;    
+    }
+
+    updateServings(type){
+        //servings
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+
+        this.ingredients.forEach(ing =>{
+            ing.count *= (newServings / this.servings);
+        });
+
+        this.servings = newServings;
+    }
 }

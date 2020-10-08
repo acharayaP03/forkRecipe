@@ -8,6 +8,7 @@ export const elementClasses = {
   searchResult: "results",
   searchResultList: "results__list",
   searchResPages: "results__pages",
+  recipe: "recipe"
 };
 
 
@@ -19,6 +20,7 @@ export const elements = {
   ),
   searchResult: document.querySelector(`.${elementClasses.searchResult}`),
   searchResPages: document.querySelector(`.${elementClasses.searchResPages}`),
+  recipe: document.querySelector(`.${elementClasses.recipe}`)
 };
 
 

@@ -9,9 +9,22 @@ export const clearInput = () =>{
     elements.searchInput.value = "";
 }
 
+//highlight selected recipe.
+
+export const highlightSelected = id =>{
+  const resultsArr = Array.from(document.querySelectorAll(".results__link"));
+
+  //class results__link--active exists then remove it 
+  resultsArr.forEach((el) => {
+    el.classList.remove("results__link--active");
+  });
+  // only add, when the item is selected 
+  document.querySelector(`a[href="#${id}"]`).classList.add("results__link--active");
+}
+
 //shorten long title algorythem
 
-const shotenRecipeTitle = (title, limit=17) => {
+const shotenRecipeTitle = (title, limit=20) => {
     /**
      * eg. title =  " Pasta with tamato and goat cheese"
      * limit is the word count
