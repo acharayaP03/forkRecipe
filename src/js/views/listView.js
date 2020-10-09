@@ -13,7 +13,7 @@ import { elements } from './base';
                 <input type="number" value="${item.count}" step="${item.count}" class="shopping__count--value">
                 <p>${item.unit}</p>
             </div>
-            <p class="shopping__description">Pasta</p>
+            <p class="shopping__description">${item.ingredient}</p>
             <button class="shopping__delete btn-tiny">
                 <svg>
                     <use href="img/icons.svg#icon-circle-with-cross"></use>
@@ -35,7 +35,7 @@ import { elements } from './base';
      * data-itemid will have reference to the id which then will be targeted to remove from parent
      */
 
-     const item = document.querySelector(`[data-itemid="${item.id}"]`);
+     const item = document.querySelector(`[data-itemid="${id}"]`);
 
-     item.parentElement.removeChild(item);
+     if(item) item.parentElement.removeChild(item);
  }

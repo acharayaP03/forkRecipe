@@ -1,12 +1,13 @@
 /*************************************************************************
  * *************************** Global app controller**********************
  * ***********************************************************************/
+import {controlSearch} from './controller/searchController';
 
-import Search from './model/Search';
 import Recipe from "./model/Recipe";
 import List from "./model/List";
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderLoader, clearLoader, elementClasses } from './views/base';
 
 //first lets save the state of the app,
@@ -20,35 +21,7 @@ import { elements, renderLoader, clearLoader, elementClasses } from './views/bas
 
  //when app starts, the state object will be empty
  const state = {};
-
- //Search form event listener. since the Search model returns promise we need to await for ht results. hench the controlSearch function will be async await
- const controlSearch = async () =>{
-    //get the query from the view
-    const query = searchView.getInput();
-    //console.log(query)
-    if(query){
-        // new search object and add to the state
-        state.search = new Search(query);
-
-        //Prepare for UI results.
-        searchView.clearInput();
-        searchView.clearRecipeList();
-        renderLoader(elements.searchResult);
-       
-        try {            
-            // Search for recipes
-            await state.search.getResults();
-    
-            // render results on UI
-            clearLoader();
-    
-            searchView.renderResult(state.search.results);
-            //console.log(state.search.results)
-        } catch (error) {
-            console.log(error)
-        }
-    }
- }
+ window.state = state;
 
  elements.searchForm.addEventListener('submit', e =>{
      //prevent form from submitting on button click.
@@ -72,12 +45,12 @@ import { elements, renderLoader, clearLoader, elementClasses } from './views/bas
     }
  })
 
-//Recipe controller
-
-//get hashed id from the recipe list 
+/**
+ * @params Recipe Controller 
+ * get hashed id from the recipe list
+ */
 
 const controlRecipe = async () =>{
-
     //first get the recipe id from the link, replace # 
     const id = window.location.hash.replace('#', '');
     //console.log(id)
@@ -110,8 +83,32 @@ const controlRecipe = async () =>{
     }
 }
 
-// window.addEventListener('hashchange', controlRecipe);
-// window.addEventListener('load', controlRecipe);
+
+/**
+ * @params 
+ * List Controller
+ * @returns a List of ingredients on shopping list 
+ * @initialize with empty object first
+ */
+
+ const listController = () =>{
+     // Create a new list if there in none yet
+    if(!state.list) state.list = new List();
+
+    // add each ingredient to the list
+    state.recipe.ingredients.forEach(element => {
+        const item = state.list.addItem(element.count, element.unit, element.ingredients); 
+        listView.renderItems(item);       
+    });
+ }
+
+
+/**
+ * @event 
+ * loop over both hashchange and load and add an event listener
+ * window.addEventListener('hashchange', controlRecipe); & window.addEventListener('load', controlRecipe);
+ */
+
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
 //Handling recipe button clicks 
@@ -128,9 +125,27 @@ elements.recipe.addEventListener('click',e =>{
         // increase button is clicked 
         state.recipe.updateServings("inc");
         recipeView.updateServingsIngredients(state.recipe);
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        listController();
     }
     //check if state.recipe is decreasing. 
     //console.log(state.recipe)
+});
+
+elements.shoppingList.addEventListener('click', e =>{
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    //Handle the delete button
+    if(e.target.matches('.shopping__delete, .shopping__delete *')){
+        //first remove from the global state
+        state.list.deleteItem(id);
+        // Delete from the UI
+
+        listView.deleteItem(id);
+    }else if(e.target.matches('.shopping__count--value')){
+        const val = parseFloat(e.target.value, 10);
+        state.list.updateCount(id, val);
+    }
 })
 
 window.l = new List()
