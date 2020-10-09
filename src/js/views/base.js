@@ -8,19 +8,19 @@ export const elementClasses = {
   searchResult: "results",
   searchResultList: "results__list",
   searchResPages: "results__pages",
-  recipe: "recipe"
+  recipe: "recipe",
+  shoppingList: 'shopping__list'
 };
 
 
 export const elements = {
   searchForm: document.querySelector(`.${elementClasses.search}`),
   searchInput: document.querySelector(`.${elementClasses.searchField}`),
-  searchResultList: document.querySelector(
-    `.${elementClasses.searchResultList}`
-  ),
+  searchResultList: document.querySelector(`.${elementClasses.searchResultList}`),
   searchResult: document.querySelector(`.${elementClasses.searchResult}`),
   searchResPages: document.querySelector(`.${elementClasses.searchResPages}`),
-  recipe: document.querySelector(`.${elementClasses.recipe}`)
+  recipe: document.querySelector(`.${elementClasses.recipe}`),
+  shoppingList: document.querySelector(`.${elementClasses.shoppingList}`)
 };
 
 
