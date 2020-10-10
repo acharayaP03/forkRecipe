@@ -19,12 +19,12 @@ export const highlightSelected = id =>{
     el.classList.remove("results__link--active");
   });
   // only add, when the item is selected 
-  document.querySelector(`a[href="#${id}"]`).classList.add("results__link--active");
+  document.querySelector(`.results__link[href*="#${id}"]`).classList.add("results__link--active");
 }
 
 //shorten long title algorythem
 
-const shotenRecipeTitle = (title, limit=20) => {
+export const shotenRecipeTitle = (title, limit=20) => {
     /**
      * eg. title =  " Pasta with tamato and goat cheese"
      * limit is the word count
@@ -75,7 +75,7 @@ const renderRecipe = recipe => {
                     <img src="${image_url}" alt="${title}">
                 </figure>
                 <div class="results__data">
-                    <h4 class="results__name">${shotenRecipeTitle(title, 15)}</h4>
+                    <h4 class="results__name">${shotenRecipeTitle(title, 17)}</h4>
                     <p class="results__author">${publisher}</p>
                 </div>
             </a>

@@ -9,7 +9,10 @@ export const elementClasses = {
   searchResultList: "results__list",
   searchResPages: "results__pages",
   recipe: "recipe",
-  shoppingList: 'shopping__list'
+  shoppingList: 'shopping__list',
+  recipeLike: 'recipe__love',
+  likesMenu: 'likes__field',
+  likesList: 'likes__list'
 };
 
 
@@ -20,7 +23,10 @@ export const elements = {
   searchResult: document.querySelector(`.${elementClasses.searchResult}`),
   searchResPages: document.querySelector(`.${elementClasses.searchResPages}`),
   recipe: document.querySelector(`.${elementClasses.recipe}`),
-  shoppingList: document.querySelector(`.${elementClasses.shoppingList}`)
+  shoppingList: document.querySelector(`.${elementClasses.shoppingList}`),
+  recipeLike: document.querySelector(`.${elementClasses.recipeLike}`),
+  likesMenu: document.querySelector(`.${elementClasses.likesMenu}`),
+  likesList: document.querySelector(`.${elementClasses.likesList}`)
 };
 
 
