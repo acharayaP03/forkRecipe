@@ -22,7 +22,7 @@ import { elements, renderLoader, clearLoader, elementClasses } from './views/bas
 
  //when app starts, the state object will be empty
  const state = {};
- window.state = state;
+
  state.search = new SearchController();
  
  const searchContrl = new SearchController();
@@ -112,9 +112,7 @@ const controlRecipe = async () =>{
  * @returns 
  * @initialize 
  */
-//Testing
-state.likes = new Likes();
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+
   const controlLikes = () => {
         const {recipe} = state;
         const currentId = recipe.id;
@@ -144,7 +142,23 @@ likesView.toggleLikeMenu(state.likes.getNumLikes());
         likesView.toggleLikeMenu(state.likes.getNumLikes());
     }
 
+/**
+ * @event 
+ * @Read localstorage if any likes has been saved previously
+ * @toggleLikeMenu show like toggleLikeMenu
+ * @RenderExisting likes
+ */
 
+ window.addEventListener('load', ()=>{
+    state.likes = new Likes();
+
+    //here readStrorage fucn will resotre previous liked recipies
+    state.likes.readStorage();
+
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+ })
 /**
  * @event 
  * loop over both hashchange and load and add an event listener
@@ -178,6 +192,13 @@ elements.recipe.addEventListener('click',e =>{
     //check if state.recipe is decreasing. 
     //console.log(state.recipe)
 });
+
+
+/**
+ * @event shoppingList 
+ * @ShoppingList adds all ingredients the shopping list elements.
+ */
+
 elements.shoppingList.addEventListener('click', e =>{
 
 
